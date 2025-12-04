@@ -1,10 +1,6 @@
-import os
-import glob
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
-from crewai.knowledge.source.text_file_knowledge_source import TextFileKnowledgeSource
-from crewai.knowledge.knowledge_config import KnowledgeConfig
-from pathlib import Path
+
 
 @CrewBase
 class AssistantCrew:
@@ -16,30 +12,14 @@ class AssistantCrew:
 
     # LLM Configuration
     llm = LLM(
-        model="groq/meta-llama/llama-4-scout-17b-16e-instruct",
+        model="gpt-4o-mini",
         temperature=0.1,
     )
 
     @agent
     def crewai_expert_agent(self) -> Agent:
-        # Knowledge Configuration
-        # Define base path to current file
-        knowledge_base_path = Path(__file__).parent / "knowledge"
-
-        # Prepare the knowledge base for the OSS Framework
-        files = glob.glob(os.path.join(knowledge_base_path, "oss-docs/**/*.mdx"), recursive=True)
-        # Convert file strings to Path objects
-        knowledge_file_paths = [Path(file) for file in files]
-
         return Agent(
             config=self.agents_config["crewai_expert_agent"],
-            knowledge_sources=[TextFileKnowledgeSource(
-                file_paths=knowledge_file_paths,
-                metadata={
-                    "category": "CrewAI",
-                },
-            )],
-            knowledge_config=KnowledgeConfig(results_limit=5, score_threshold=0.7),
             llm=self.llm,
         )
 
@@ -57,5 +37,5 @@ class AssistantCrew:
             tasks=self.tasks,  # Automatically created by the @task decorator
             process=Process.sequential,
             verbose=True,
-            memory=True,
+            # memory=True,  # Enables short-term, long-term, and entity memory
         )

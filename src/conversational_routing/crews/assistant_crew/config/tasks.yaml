@@ -1,11 +1,10 @@
 answer_crewai_questions_task:
   agent: crewai_expert_agent
   description: >
-    Respond to user questions about the CrewAI framework.
+    Have a natural conversation with the user. Respond appropriately to their message.
+    Remember context from the conversation history.
 
     Current message: {current_message}
     Conversation history: {conversation_history}
   expected_output: >
-    If required:
-    - Provide links to relevant documentation
-    - Offer practical examples
+    A helpful, conversational response that addresses what the user said.
