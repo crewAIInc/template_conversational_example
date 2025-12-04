@@ -2,9 +2,10 @@ answer_crewai_questions_task:
   agent: crewai_expert_agent
   description: >
     Have a natural conversation with the user. Respond appropriately to their message.
-    Remember context from the conversation history.
+    Use the context provided to maintain conversation continuity.
 
+    Previous context summary: {conversation_summary}
+    Recent messages: {conversation_history}
     Current message: {current_message}
-    Conversation history: {conversation_history}
   expected_output: >
     A helpful, conversational response that addresses what the user said.
